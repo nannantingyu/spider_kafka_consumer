@@ -103,11 +103,16 @@ class Jin10calendarController(Controller):
     def handle_data(self, model, post_data, data):
         with self.session_scope(self.sess) as session:
             model_obj = model(**data)
-            query = session.query(model.id, model.fx_id, model.pub_time).filter(
+            if hasattr(model, 'pub_time'):
+                pub_time = model.pub_time
+            else:
+                pub_time = model.time
+
+            query = session.query(model.id, model.fx_id, pub_time).filter(
                 model.source_id == model_obj.source_id
             ).one_or_none()
 
-            if query is None:
+            if query is None and post_data['show_time'] is not None:
                 # try:
                 session.add(model_obj)
                 result = requests.post(self.post_sn_url, post_data)
