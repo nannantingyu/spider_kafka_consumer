@@ -43,12 +43,12 @@ class Fx678kuaixunController(Controller):
                 dtype = data['dtype']
                 del data['dtype']
 
+                kuaixun = CrawlFx678Kuaixun(**data)
+                if 'fx678' in kuaixun.body or 'fx678' in kuaixun.body or 'fx678' in kuaixun.more_link:
+                    continue
+
                 post_data = self.get_post_data(data)
                 with self.session_scope(self.sess) as session:
-                    kuaixun = CrawlFx678Kuaixun(**data)
-
-                    print dtype
-                    print kuaixun
                     if dtype == 'insert':
                         session.add(kuaixun)
                         result = requests.post(self.post_sn_url, post_data)

@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from model.crawl_article import CrawlArticle
 from model.crawl_jin10_kuaixun import CrawlJin10Kuaixun
 from Controller import Controller
 import json, requests, re, logging
@@ -44,9 +43,11 @@ class Jin10kuaixunController(Controller):
                 del data['dtype']
                 del data['key']
 
-                with self.session_scope(self.sess) as session:
-                    kuaixun = CrawlJin10Kuaixun(**data)
+                kuaixun = CrawlJin10Kuaixun(**data)
+                if '金十' in kuaixun.body or 'jin10' in kuaixun.body or 'jin10' in kuaixun.more_link:
+                    continue
 
+                with self.session_scope(self.sess) as session:
                     post_data = self.get_post_data(data)
                     query = session.query(CrawlJin10Kuaixun.id, CrawlJin10Kuaixun.fx_id).filter(
                         getattr(CrawlJin10Kuaixun, key) == getattr(kuaixun, key)

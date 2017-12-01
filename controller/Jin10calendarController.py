@@ -103,7 +103,7 @@ class Jin10calendarController(Controller):
     def handle_data(self, model, post_data, data):
         with self.session_scope(self.sess) as session:
             model_obj = model(**data)
-            query = session.query(model.id, model.fx_id).filter(
+            query = session.query(model.id, model.fx_id, model.pub_time).filter(
                 model.source_id == model_obj.source_id
             ).one_or_none()
 
@@ -121,6 +121,7 @@ class Jin10calendarController(Controller):
                 #     print e
             else:
                 post_data['id'] = query[1]
+                post_data['show_time'] = query[2]
                 result = requests.post(self.post_sn_url, post_data)
                 session.query(model).filter(
                     model.id == query[0]

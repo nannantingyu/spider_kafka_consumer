@@ -31,4 +31,4 @@ class Controller(object):
         self.post_sn_url = settings.post_address
         self.token = '9286168e06a110cd374caa0f67f08199'
 
-        self.consumer = KafkaConsumer(topic, bootstrap_servers=self.server['host'])
+        self.consumer = KafkaConsumer(topic, bootstrap_servers=self.server['host'], group_id='spider')
