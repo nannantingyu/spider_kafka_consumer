@@ -5,7 +5,6 @@ sys.setdefaultencoding("utf-8")
 from kafka import KafkaConsumer
 from contextlib import contextmanager
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy import and_, or_, func
 from model.util import db_connect, create_news_table
 import settings
 

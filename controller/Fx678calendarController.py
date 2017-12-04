@@ -9,7 +9,7 @@ import json, requests, re, logging
 logging.basicConfig(level=logging.INFO,
                 format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
                 datefmt='%a, %d %b %Y %H:%M:%S',
-                filename='logs/jin10_calendar.log',
+                filename='logs/fx678_calendar.log',
                 filemode='w')
 
 class Fx678calendarController(Controller):

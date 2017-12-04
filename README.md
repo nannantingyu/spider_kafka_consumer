@@ -38,3 +38,14 @@
         python main.py -c Jin10kuaixun
         python main.py -c Fx678kuaixun
         python main.py -c Wallstreetcnkuaixun
+
+        #下载
+        python main.py -c Filedown
+
+5. python依赖
+
+        pip install python-dotenv
+        pip install requests
+        pip install sqlalchemy
+        pip install kafka
+        pip install pykafka
