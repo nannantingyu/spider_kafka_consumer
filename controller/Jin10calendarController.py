@@ -52,8 +52,8 @@ class Jin10calendarController(Controller):
                     self.parse_event(data)
                 elif dtype == 'holiday':
                     self.parse_holiday(data)
-            except Exception, e:
-                logging.error(e)
+            except Exception as e:
+                logging.error(e.message)
 
     def parse_calendar(self, data):
         key_map = {
