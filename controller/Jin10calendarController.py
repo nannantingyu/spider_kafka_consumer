@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from model.crawl_article import CrawlArticle
 from model.crawl_economic_calendar import CrawlEconomicCalendar
 from model.crawl_economic_event import CrawlEconomicEvent
 from model.crawl_economic_holiday import CrawlEconomicHoliday
@@ -39,9 +38,18 @@ class Jin10calendarController(Controller):
             'token': self.token
         }
 
+        self.update_data = {
+            'category': '财经日历',
+            'token': self.token,
+            'status': 1,
+            'tpl': 1,
+            'todo': 0,
+        }
+
     def run(self):
         for msg in self.consumer:
             try:
+                print msg.value
                 data = json.loads(msg.value.decode('utf-8'))
                 dtype= data['dtype'] if "dtype" in data else "calendar"
 
@@ -68,8 +76,7 @@ class Jin10calendarController(Controller):
             'influence': 'pk1'
         }
 
-        post_data = self.get_post_data(key_map, data)
-        self.handle_data(CrawlEconomicCalendar, post_data, data)
+        self.handle_data(CrawlEconomicCalendar, key_map, data)
 
     def parse_event(self, data):
         key_map = {
@@ -78,12 +85,12 @@ class Jin10calendarController(Controller):
             'city': 'city',
             'country': 'country',
             'time': 'show_time',
-            'source_id': 'crawl_id'
+            'source_id': 'crawl_id',
+            'category': 'category'
         }
 
-        post_data = self.get_post_data(key_map, data)
-        post_data['category'] = '财经大事'
-        self.handle_data(CrawlEconomicEvent, post_data, data)
+        data['category'] = '财经大事'
+        self.handle_data(CrawlEconomicEvent, key_map, data)
 
     def parse_holiday(self, data):
         key_map = {
@@ -92,15 +99,14 @@ class Jin10calendarController(Controller):
             'market': 'market',
             'country': 'country',
             'date': 'show_time',
-            'source_id': 'crawl_id'
+            'source_id': 'crawl_id',
+            'category': 'category'
         }
 
-        post_data = self.get_post_data(key_map, data)
-        post_data['category'] = '假期休市'
+        data['category'] = '假期休市'
+        self.handle_data(CrawlEconomicHoliday, key_map, data)
 
-        self.handle_data(CrawlEconomicHoliday, post_data, data)
-
-    def handle_data(self, model, post_data, data):
+    def handle_data(self, model, key_map, data):
         with self.session_scope(self.sess) as session:
             model_obj = model(**data)
             if hasattr(model, 'pub_time'):
@@ -112,11 +118,11 @@ class Jin10calendarController(Controller):
                 model.source_id == model_obj.source_id
             ).one_or_none()
 
-            if query is None and post_data['show_time'] is not None:
+            if query is None and 'pub_time' in data and data['pub_time'] is not None:
                 # try:
+                post_data = self.get_post_data(key_map, data)
                 session.add(model_obj)
                 result = requests.post(self.post_sn_url, post_data)
-                print "insert", result.content
                 res = result.json()
                 if 'errno' in res and res['errno'] == 0:
                     session.query(model).filter(
@@ -125,6 +131,8 @@ class Jin10calendarController(Controller):
                 # except Exception, e:
                 #     print e
             else:
+                post_data = self.get_post_data(key_map, data, True)
+                print str(post_data).decode('utf-8').encode('gbk')
                 post_data['id'] = query[1]
                 post_data['show_time'] = query[2]
                 result = requests.post(self.post_sn_url, post_data)
@@ -132,11 +140,11 @@ class Jin10calendarController(Controller):
                     model.id == query[0]
                 ).update(data)
 
-            print result.content
+            print result.content.decode("utf-8").encode('gbk')
 
-    def get_post_data(self, key_map, data):
+    def get_post_data(self, key_map, data, update=False):
         post_data = {}
-        post_data.update(self.post_data)
+        post_data.update(self.post_data) if not update else post_data.update(self.update_data)
 
         time_pat = re.compile(r"\d{4}\-\d{2}\-\d{2}(\s\d{2}:\d{2}:\d{2})?")
         for d in data:

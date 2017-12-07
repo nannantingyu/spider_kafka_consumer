@@ -7,5 +7,6 @@ __all__ = [
     'Jin10kuaixunController',
     'Fx678kuaixunController',
     'WallstreetcnkuaixunController',
-    'FiledownController'
+    'FiledownController',
+    'Jin10calendardeleteController'
 ]

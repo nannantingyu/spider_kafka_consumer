@@ -38,6 +38,14 @@ class Fx678calendarController(Controller):
             'token': self.token
         }
 
+        self.update_data = {
+            'category': '财经日历',
+            'token': self.token,
+            'status': 1,
+            'tpl': 1,
+            'todo': 0,
+        }
+
     def run(self):
         for msg in self.consumer:
             try:
@@ -67,8 +75,7 @@ class Fx678calendarController(Controller):
             'influence': 'pk1'
         }
 
-        post_data = self.get_post_data(key_map, data)
-        self.handle_data(CrawlFx678EconomicCalendar, post_data, data)
+        self.handle_data(CrawlFx678EconomicCalendar, key_map, data)
 
     def parse_event(self, data):
         key_map = {
@@ -77,12 +84,12 @@ class Fx678calendarController(Controller):
             'city': 'city',
             'country': 'country',
             'time': 'show_time',
-            'source_id': 'crawl_id'
+            'source_id': 'crawl_id',
+            'category': 'category'
         }
 
-        post_data = self.get_post_data(key_map, data)
-        post_data['category'] = '财经大事'
-        self.handle_data(CrawlFx678EconomicEvent, post_data, data)
+        data['category'] = '财经大事'
+        self.handle_data(CrawlFx678EconomicEvent, key_map, data)
 
     def parse_holiday(self, data):
         key_map = {
@@ -91,15 +98,14 @@ class Fx678calendarController(Controller):
             'market': 'market',
             'country': 'country',
             'date': 'show_time',
-            'source_id': 'crawl_id'
+            'source_id': 'crawl_id',
+            'category': 'category'
         }
 
-        post_data = self.get_post_data(key_map, data)
-        post_data['category'] = '假期休市'
+        data['category'] = '假期休市'
+        self.handle_data(CrawlFx678EconomicHoliday, key_map, data)
 
-        self.handle_data(CrawlFx678EconomicHoliday, post_data, data)
-
-    def handle_data(self, model, post_data, data):
+    def handle_data(self, model, key_map, data):
         with self.session_scope(self.sess) as session:
             model_obj = model(**data)
             query = session.query(model.id, model.fx_id).filter(
@@ -108,6 +114,7 @@ class Fx678calendarController(Controller):
 
             if query is None:
                 # try:
+                post_data = self.get_post_data(key_map, data)
                 session.add(model_obj)
                 result = requests.post(self.post_sn_url, post_data)
                 print "insert", result.content
@@ -119,6 +126,7 @@ class Fx678calendarController(Controller):
                 # except Exception, e:
                 #     print e
             else:
+                post_data = self.get_post_data(key_map, data, True)
                 post_data['id'] = query[1]
                 result = requests.post(self.post_sn_url, post_data)
                 session.query(model).filter(
@@ -127,9 +135,9 @@ class Fx678calendarController(Controller):
 
             print result.content
 
-    def get_post_data(self, key_map, data):
+    def get_post_data(self, key_map, data, update=False):
         post_data = {}
-        post_data.update(self.post_data)
+        post_data.update(self.post_data) if not update else post_data.update(self.update_data)
 
         time_pat = re.compile(r"\d{4}\-\d{2}\-\d{2}(\s\d{2}:\d{2}:\d{2})?")
         for d in data:
