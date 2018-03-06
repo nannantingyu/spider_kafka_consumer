@@ -10,5 +10,6 @@ __all__ = [
     'FiledownController',
     'Jin10calendardeleteController',
     'CftcController',
-    'StockController'
+    'StockController',
+    'FxssiController'
 ]

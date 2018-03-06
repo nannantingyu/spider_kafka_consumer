@@ -39,6 +39,7 @@ class Jin10kuaixunController(Controller):
         for msg in self.consumer:
             try:
                 data = json.loads(msg.value.decode('utf-8'))
+                print data
                 key = data['key']
                 del data['dtype']
                 del data['key']
