@@ -29,7 +29,7 @@ class FxssiController(Controller):
                         fxssi = CrawlFxssi()
                         fxssi.broker = broker
                         fxssi.pair = pair
-                        fxssi.val = data[pair][broker]
+                        fxssi.val = data[pair][broker] if data[pair][broker].isdigit() else 0
 
                         all_data.append(fxssi)
 
