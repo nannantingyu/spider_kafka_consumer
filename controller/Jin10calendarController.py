@@ -16,6 +16,7 @@ class Jin10calendarController(Controller):
     def __init__(self, topic="crawl_jin10_calendar"):
         super(Jin10calendarController, self).__init__(topic)
         # self.post_sn_url = 'http://www.9dfx.com/api/content'
+        self.re_remove_a = re.compile("<a.*?/a>")
 
         self.post_data = {
             'category': '财经日历',
@@ -90,6 +91,7 @@ class Jin10calendarController(Controller):
         }
 
         data['category'] = '财经大事'
+        data['event'] = self.re_remove_a.sub("", data['event'])
         self.handle_data(CrawlEconomicEvent, key_map, data)
 
     def parse_holiday(self, data):
@@ -104,6 +106,7 @@ class Jin10calendarController(Controller):
         }
 
         data['category'] = '假期休市'
+        data['detail'] = self.re_remove_a.sub("", data['detail'])
         self.handle_data(CrawlEconomicHoliday, key_map, data)
 
     def handle_data(self, model, key_map, data):
