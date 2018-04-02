@@ -29,10 +29,17 @@ class FxssiController(Controller):
                         fxssi = CrawlFxssi()
                         fxssi.broker = broker
                         fxssi.pair = pair
-                        fxssi.val = data[pair][broker] if str(data[pair][broker]).isdigit() else 0
+                        fxssi.val = data[pair][broker] if self.is_float(data[pair][broker]) else 50
 
                         all_data.append(fxssi)
 
                 print all_data
                 if all_data:
                     session.add_all(all_data)
+
+    def is_float(self, num):
+        try:
+            float(num)
+            return True
+        except:
+            return False
