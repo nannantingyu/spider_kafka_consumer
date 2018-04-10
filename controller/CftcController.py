@@ -16,6 +16,7 @@ class CftcController(Controller):
 
     def run(self):
         for msg in self.consumer:
+	    print msg
             data = json.loads(msg.value.decode('utf-8'))
             cftc = CrawlCftc(**data)
             with self.session_scope(self.sess) as session:

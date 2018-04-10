@@ -1,8 +1,11 @@
 #!/bin/bash
-cd /home/nginx/crawlerConsumer && nohup python main.py -c Jin10calendar &
-cd /home/nginx/crawlerConsumer && nohup python main.py -c Jin10kuaixun &
-cd /home/nginx/crawlerConsumer && nohup python main.py -c Fx678calendar &
-cd /home/nginx/crawlerConsumer && nohup python main.py -c Fx678kuaixun &
-cd /home/nginx/crawlerConsumer && nohup python main.py -c Wallstreetcnkuaixun &
-cd /home/nginx/crawlerConsumer && nohup python main.py -c Article &
-cd /home/nginx/crawlerConsumer && nohup python main.py -c Filedown &
+cd /data/jujin-crawler-consumer && nohup python main.py -c Jin10calendar &
+cd /data/jujin-crawler-consumer && nohup python main.py -c Jin10kuaixun &
+cd /data/jujin-crawler-consumer && nohup python main.py -c Fx678calendar &
+cd /data/jujin-crawler-consumer && nohup python main.py -c Fx678kuaixun &
+cd /data/jujin-crawler-consumer && nohup python main.py -c Wallstreetcnkuaixun &
+cd /data/jujin-crawler-consumer && nohup python main.py -c Article &
+cd /data/jujin-crawler-consumer && nohup python main.py -c Filedown &
+cd /data/jujin-crawler-consumer && nohup python main.py -c Cftc >> logs/cftc.log &
+cd /data/jujin-crawler-consumer && nohup python main.py -c Stock >> logs/stock.log &
+cd /data/jujin-crawler-consumer && nohup python main.py -c Fxssi >> logs/Fxssi.log &
