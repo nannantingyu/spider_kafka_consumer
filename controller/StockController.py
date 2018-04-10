@@ -19,7 +19,7 @@ class StockController(Controller):
             stock = CrawlStock(**data)
             with self.session_scope(self.sess) as session:
                 query = session.query(CrawlStock.id).filter(
-                    CrawlStock.type == stock.type, CrawlStock.publish_time == stock.publish_time, CrawlStock.position == stock.position
+                    CrawlStock.type == stock.type, CrawlStock.publish_time == stock.publish_time
                 ).one_or_none()
 
                 if query is None:
