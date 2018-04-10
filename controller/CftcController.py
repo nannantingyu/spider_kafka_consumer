@@ -3,6 +3,7 @@ from model.crawl_cftc import CrawlCftc
 from kafka import KafkaConsumer
 from Controller import Controller
 import json, re, requests, logging
+from sqlalchemy import and_, or_, func
 
 logging.basicConfig(level=logging.INFO,
                 format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
@@ -21,7 +22,9 @@ class CftcController(Controller):
             cftc = CrawlCftc(**data)
             with self.session_scope(self.sess) as session:
                 query = session.query(CrawlCftc.id).filter(
-                    CrawlCftc.cftc_name == cftc.cftc_name, CrawlCftc.publish_time == cftc.publish_time
+                    and_(
+                        CrawlCftc.cftc_name == cftc.cftc_name, CrawlCftc.publish_time == cftc.publish_time
+                    )
                 ).one_or_none()
 
                 if query is None:

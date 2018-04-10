@@ -26,23 +26,23 @@ class FxssiController(Controller):
                 all_data = []
                 for pair in data:
                     for broker in data[pair]:
-			try:
+                        try:
                             fxssi = CrawlFxssi()
                             fxssi.broker = broker
                             fxssi.pair = pair
                             fxssi.val = data[pair][broker] if self.is_float(data[pair][broker]) else 50
 
                             all_data.append(fxssi)
-			except:
-			    continue
+                        except:
+                            continue
 
                 print all_data
                 if all_data:
                     session.add_all(all_data)
 
     def is_float(self, num):
-	if num == 'NaN':
-	    return False
+        if num == 'NaN':
+            return False
         try:
             float(num)
             return True

@@ -2,6 +2,7 @@
 from model.crawl_stock import CrawlStock
 from Controller import Controller
 import json, re, requests, logging
+from sqlalchemy import and_, or_, func
 
 logging.basicConfig(level=logging.INFO,
                 format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
@@ -19,7 +20,10 @@ class StockController(Controller):
             stock = CrawlStock(**data)
             with self.session_scope(self.sess) as session:
                 query = session.query(CrawlStock.id).filter(
-                    CrawlStock.type == stock.type, CrawlStock.publish_time == stock.publish_time
+                    and_(
+                        CrawlStock.type == stock.type,
+                         CrawlStock.publish_time == stock.publish_time
+                    )
                 ).one_or_none()
 
                 if query is None:
