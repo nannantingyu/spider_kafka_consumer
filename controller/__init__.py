@@ -11,5 +11,8 @@ __all__ = [
     'Jin10calendardeleteController',
     'CftcController',
     'StockController',
-    'FxssiController'
+    'FxssiController',
+    'SocketserverController',
+    'SocketkafkaController',
+    'SocketredisController'
 ]
