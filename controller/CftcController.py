@@ -12,12 +12,12 @@ logging.basicConfig(level=logging.INFO,
                 filemode='w')
 
 class CftcController(Controller):
-    def __init__(self, topic="crawl_cftc"):
+    def __init__(self, topic="crawl_cftc_new"):
         super(CftcController, self).__init__(topic)
 
     def run(self):
         for msg in self.consumer:
-	    print msg
+            print msg
             data = json.loads(msg.value.decode('utf-8'))
             cftc = CrawlCftc(**data)
             with self.session_scope(self.sess) as session:
