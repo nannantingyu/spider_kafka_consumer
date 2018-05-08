@@ -19,12 +19,21 @@ class StockController(Controller):
             data = json.loads(msg.value.decode('utf-8'))
             stock = CrawlStock(**data)
             with self.session_scope(self.sess) as session:
-                query = session.query(CrawlStock.id).filter(
-                    and_(
-                        CrawlStock.type == stock.type,
-                         CrawlStock.publish_time == stock.publish_time
-                    )
-                ).one_or_none()
+                if stock.type == 3:
+                    query = session.query(CrawlStock.id).filter(
+                        and_(
+                            CrawlStock.type == stock.type,
+                            CrawlStock.position == stock.position,
+                            CrawlStock.publish_time == stock.publish_time
+                        )
+                    ).one_or_none()
+                else:
+                    query = session.query(CrawlStock.id).filter(
+                        and_(
+                            CrawlStock.type == stock.type,
+                            CrawlStock.publish_time == stock.publish_time
+                        )
+                    ).one_or_none()
 
                 if query is None:
                     session.add(stock)
