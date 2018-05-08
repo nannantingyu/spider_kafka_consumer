@@ -17,28 +17,27 @@ class FxssiController(Controller):
     def run(self):
         now = datetime.datetime.now().strftime("%Y-%m-%d 00:00:00")
         for msg in self.consumer:
-            data = json.loads(msg.value.decode('utf-8'))
-            with self.session_scope(self.sess) as session:
-                query = session.query(CrawlFxssi).filter(and_(
-                    CrawlFxssi.created_at >= now
-                )).delete()
+            try:
+                data = json.loads(msg.value.decode('utf-8'))
+                with self.session_scope(self.sess) as session:
+                    query = session.query(CrawlFxssi).filter(and_(
+                        CrawlFxssi.created_at >= now
+                    )).delete()
 
-                all_data = []
-                for pair in data:
-                    for broker in data[pair]:
-                        try:
-                            fxssi = CrawlFxssi()
-                            fxssi.broker = broker
-                            fxssi.pair = pair
-                            fxssi.val = data[pair][broker] if self.is_float(data[pair][broker]) else 50
+                    all_data = []
+                    for pair in data:
+                        for broker in data[pair]:
 
-                            all_data.append(fxssi)
-                        except:
-                            continue
+                                fxssi = CrawlFxssi()
+                                fxssi.broker = broker
+                                fxssi.pair = pair
+                                fxssi.val = data[pair][broker] if self.is_float(data[pair][broker]) else 50
 
-                print all_data
-                if all_data:
-                    session.add_all(all_data)
+                                all_data.append(fxssi)
+                    if all_data:
+                        session.add_all(all_data)
+            except:
+                continue
 
     def is_float(self, num):
         if num == 'NaN':
