@@ -4,16 +4,9 @@ from model.crawl_fx678_kuaixun import CrawlFx678Kuaixun
 from Controller import Controller
 import json, requests, re, logging
 
-logging.basicConfig(level=logging.INFO,
-                format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
-                datefmt='%a, %d %b %Y %H:%M:%S',
-                filename='logs/fx678_kuaixun.log',
-                filemode='w')
-
 class Fx678kuaixunController(Controller):
     def __init__(self, topic="crawl_fx678_kuaixun"):
-        super(Fx678kuaixunController, self).__init__(topic)
-        # self.post_sn_url = 'http://www.9dfx.com/api/content'
+        super(Fx678kuaixunController, self).__init__(topic, 'fx678_kuaixun.log')
 
         self.post_data = {
             'category': '市场数据',

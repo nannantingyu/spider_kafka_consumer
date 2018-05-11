@@ -22,6 +22,5 @@ class CrawlEconomicCalendar(Base):
     datename = Column(String(64))
     dataname_id = Column(Integer)
     unit = Column(String(32))
-    fx_id = Column(Integer)
     created_time = Column(DateTime, default=func.now())
     updated_time = Column(DateTime, default=func.now(), onupdate=func.now())

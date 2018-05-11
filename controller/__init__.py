@@ -12,7 +12,4 @@ __all__ = [
     'CftcController',
     'StockController',
     'FxssiController',
-    'SocketserverController',
-    'SocketkafkaController',
-    'SocketredisController'
 ]

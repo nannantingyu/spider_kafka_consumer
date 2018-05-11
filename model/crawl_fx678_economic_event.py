@@ -16,6 +16,5 @@ class CrawlFx678EconomicEvent(Base):
     event = Column(String(32))
     date = Column(Date)
     source_id = Column(String(32))
-    fx_id = Column(Integer)
     created_time = Column(DateTime, default=func.now())
     updated_time = Column(DateTime, default=func.now(), onupdate=func.now())

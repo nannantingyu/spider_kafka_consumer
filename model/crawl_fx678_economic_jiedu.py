@@ -8,7 +8,8 @@ from model.util import Base
 class CrawlFx678EconomicJiedu(Base):
     __tablename__ = 'crawl_fx678_economic_jiedu'
 
-    dataname_id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    dataname_id = Column(Integer)
     next_pub_time = Column(String(64))
     pub_agent = Column(String(64))
     pub_frequency = Column(String(64))
@@ -16,6 +17,7 @@ class CrawlFx678EconomicJiedu(Base):
     data_influence = Column(String(512))
     data_define = Column(String(512))
     funny_read = Column(String(512))
-    fx_id = Column(Integer)
     created_time = Column(DateTime, default=func.now())
     updated_time = Column(DateTime, default=func.now(), onupdate=func.now())
+
+    Index("idx_dataname_id", dataname_id)

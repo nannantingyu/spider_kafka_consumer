@@ -32,6 +32,5 @@ class CrawlWallstreetcnKuaixun(Base):
     influnce = Column(String(64))
     star = Column(SmallInteger)
     calendar_id = Column(String(10))
-    fx_id = Column(Integer)
     created_time = Column(DateTime, default=func.now())
     updated_time = Column(DateTime, default=func.now(), onupdate=func.now())

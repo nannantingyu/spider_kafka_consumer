@@ -15,7 +15,6 @@ class CrawlEconomicEvent(Base):
     importance = Column(String(24))
     event = Column(String(256))
     date = Column(Date)
-    fx_id = Column(Integer)
     source_id = Column(Integer)
     created_time = Column(DateTime, default=func.now())
     updated_time = Column(DateTime, default=func.now(), onupdate=func.now())

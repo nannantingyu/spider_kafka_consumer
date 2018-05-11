@@ -23,6 +23,5 @@ class CrawlFx678EconomicCalendar(Base):
     dataname_id = Column(Integer)
     position = Column(String(64))
     unit = Column(String(32))
-    fx_id = Column(Integer)
     created_time = Column(DateTime, default=func.now())
     updated_time = Column(DateTime, default=func.now(), onupdate=func.now())

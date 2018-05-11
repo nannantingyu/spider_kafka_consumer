@@ -1,18 +1,13 @@
 # -*- coding: utf-8 -*-
 from model.crawl_stock import CrawlStock
 from Controller import Controller
-import json, re, requests, logging
+import json, re, requests
 from sqlalchemy import and_, or_, func
 
-logging.basicConfig(level=logging.INFO,
-                format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
-                datefmt='%a, %d %b %Y %H:%M:%S',
-                filename='logs/article.log',
-                filemode='w')
 
 class StockController(Controller):
     def __init__(self, topic="crawl_stock"):
-        super(StockController, self).__init__(topic)
+        super(StockController, self).__init__(topic, 'stock')
 
     def run(self):
         for msg in self.consumer:
@@ -41,11 +36,19 @@ class StockController(Controller):
 
                     if query is None:
                         session.add(stock)
+                        session.flush()
+                        data['id'] = stock.id
+                        data['dtype'] = 'insert'
+                        self.hook_data(data)
                     else:
                         session.query(CrawlStock).filter(CrawlStock.id == query[0]).update({
                             "position": stock.position,
                             "iod": stock.iod
                         })
+
+                        data['id'] = query[0]
+                        data['dtype'] = 'update'
+                        self.hook_data(data)
                 except Exception,e:
-                    print e
+                    self.logger.error('Catch an exception.', exc_info=True)
                     continue

@@ -20,6 +20,5 @@ class CrawlArticle(Base):
     source_id = Column(String(64))
     source_url = Column(String(512))
     source_site = Column(String(32))
-    fx_id = Column(Integer)
     created_time = Column(DateTime, default=func.now())
     updated_time = Column(DateTime, default=func.now(), onupdate=func.now())
