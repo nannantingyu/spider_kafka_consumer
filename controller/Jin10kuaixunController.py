@@ -30,6 +30,7 @@ class Jin10kuaixunController(Controller):
                         session.flush()
                         data['id'] = kuaixun.id
                         data['dtype'] = "insert"
+                        data['source_site'] = "jin10"
                         self.hook_data(data, "kuaixun")
                     else:
                         session.query(CrawlJin10Kuaixun).filter(
@@ -38,6 +39,7 @@ class Jin10kuaixunController(Controller):
 
                         data['id'] = query[0]
                         data['dtype'] = "update"
+                        data['source_site'] = "jin10"
                         self.hook_data(data, "kuaixun")
             except Exception, e:
                 self.logger.error('Catch an exception.', exc_info=True)
