@@ -18,6 +18,11 @@ kafka = {
     'port': environ.get('cafca_port')
 }
 
+redis_config = {
+    'host': environ.get('redis_host'),
+    'port': environ.get('redis_port')
+}
+
 data_formatter = {
     'article': {
         'post_url_lists': [

@@ -1,15 +1,17 @@
 # -*- coding: utf-8 -*-
-from model.crawl_cftc import CrawlCftc
-from kafka import KafkaConsumer
 from Controller import Controller
-import json, re, requests, logging
-from sqlalchemy import and_, or_, func
+import json, redis
+from settings import redis_config
 
 class NiuyanController(Controller):
     def __init__(self, topic="niuyan_hangqing"):
         super(NiuyanController, self).__init__(topic, 'niuyan_hangqing')
+        self.r = redis.Redis(host=redis_config['redis_host'], port=redis_config['redis_port'])
 
     def run(self):
         for msg in self.consumer:
-            data = json.loads(msg.value.decode('utf-8'))
-            print data
+            try:
+                print json.loads(msg.value.decode('utf-8'))
+                self.r.publish("digita_currency", msg.value.decode('utf-8'))
+            except:
+                self.logger.error('Catch an exception.', exc_info=True)
