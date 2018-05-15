@@ -6,7 +6,7 @@ from settings import redis_config
 class NiuyanController(Controller):
     def __init__(self, topic="niuyan_hangqing"):
         super(NiuyanController, self).__init__(topic, 'niuyan_hangqing')
-        self.r = redis.Redis(host=redis_config['redis_host'], port=redis_config['redis_port'])
+        self.r = redis.Redis(host=redis_config['host'], port=redis_config['port'])
 
     def run(self):
         for msg in self.consumer:
