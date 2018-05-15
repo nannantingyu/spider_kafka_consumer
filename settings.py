@@ -26,7 +26,7 @@ redis_config = {
 data_formatter = {
     'article': {
         'post_url_lists': [
-            'http://ad.cn/api/test_article'
+            'http://ad.yjshare.cn/api/test_article'
         ],
         'data_format': {
             'id': 'id',
@@ -45,7 +45,7 @@ data_formatter = {
     },
     'cftc': {
         'post_url_lists': [
-            'http://ad.cn/api/test_cftc'
+            'http://ad.yjshare.cn/api/test_cftc'
         ],
         'data_format': {
             'id': 'id',
@@ -59,7 +59,7 @@ data_formatter = {
     },
     'calendar': {
         'post_url_lists': [
-            "http://ad.cn/api/test_calendar"
+            "http://ad.yjshare.cn/api/test_calendar"
         ],
         'data_format': {
             'id': 'id',
@@ -78,7 +78,7 @@ data_formatter = {
     },
     'event': {
         'post_url_lists': [
-            "http://ad.cn/api/test_event"
+            "http://ad.yjshare.cn/api/test_event"
         ],
         'data_format': {
             "id": "id",
@@ -94,7 +94,7 @@ data_formatter = {
     },
     'holiday': {
         'post_url_lists': [
-            "http://ad.cn/api/test_holiday"
+            "http://ad.yjshare.cn/api/test_holiday"
         ],
         'data_format': {
             "id": "id",
@@ -111,7 +111,7 @@ data_formatter = {
     },
     'kuaixun': {
         'post_url_lists': [
-            "http://ad.cn/api/test_kuaixun"
+            "http://ad.yjshare.cn/api/test_kuaixun"
         ],
         'data_format': {
             "id": "id",
@@ -137,7 +137,7 @@ data_formatter = {
     },
     'stock': {
         'post_url_lists': [
-            "http://ad.cn/api/test_stock"
+            "http://ad.yjshare.cn/api/test_stock"
         ],
         "data_format": {
             'id': 'id',
@@ -149,7 +149,7 @@ data_formatter = {
     },
     'fxssi': {
         'post_url_lists': [
-            "http://ad.cn/api/test_fxssi"
+            "http://ad.yjshare.cn/api/test_fxssi"
         ],
         "data_format": {
             'day': 'day',
@@ -158,7 +158,7 @@ data_formatter = {
     },
     'jiedu': {
         'post_url_lists': [
-            "http://ad.cn/api/test_jiedu"
+            "http://ad.yjshare.cn/api/test_jiedu"
         ],
         "data_format": {
             'id': 'id',
@@ -176,7 +176,7 @@ data_formatter = {
     },
     'delete_calendar': {
         'post_url_lists': [
-            "http://ad.cn/api/test_delete_calendar"
+            "http://ad.yjshare.cn/api/test_delete_calendar"
         ],
         "data_format": {
             'id': 'id',
