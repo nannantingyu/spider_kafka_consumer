@@ -30,27 +30,29 @@ class Fx678calendarController(Controller):
 
     def handle_data(self, dtype, data):
         with self.session_scope(self.sess) as session:
-            print data
-            model = self.type_model_map[dtype]
-            model_obj = model(**data)
-            query = session.query(model.id).filter(
-                model.source_id == model_obj.source_id
-            ).one_or_none()
+            try:
+                model = self.type_model_map[dtype]
+                model_obj = model(**data)
+                query = session.query(model.id).filter(
+                    model.source_id == model_obj.source_id
+                ).one_or_none()
 
-            if query is None:
-                session.add(model_obj)
-                session.flush()
+                if query is None:
+                    session.add(model_obj)
+                    session.flush()
 
-                data['id'] = model_obj.id
-                data['dtype'] = "insert"
-                data['source_site'] = "fx678"
-                self.hook_data(data, data_formatter=dtype)
-            else:
-                session.query(model).filter(
-                    model.id == query[0]
-                ).update(data)
+                    data['id'] = model_obj.id
+                    data['dtype'] = "insert"
+                    data['source_site'] = "fx678"
+                    self.hook_data(data, data_formatter=dtype)
+                else:
+                    session.query(model).filter(
+                        model.id == query[0]
+                    ).update(data)
 
-                data['id'] = query[0]
-                data['dtype'] = "update"
-                data['source_site'] = "fx678"
-                self.hook_data(data, data_formatter=dtype)
+                    data['id'] = query[0]
+                    data['dtype'] = "update"
+                    data['source_site'] = "fx678"
+                    self.hook_data(data, data_formatter=dtype)
+            except Exception,e:
+                session.rollback()

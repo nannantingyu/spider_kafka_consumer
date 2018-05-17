@@ -41,4 +41,5 @@ class CftcController(Controller):
 
                     self.hook_data(data)
                 except Exception,e:
+                    session.rollback()
                     self.logger.error('Catch an exception.', exc_info=True)
