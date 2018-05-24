@@ -14,6 +14,7 @@ class CrawlCftc(Base):
     net_long = Column(Integer, nullable=True)
     net_short = Column(Integer, nullable=True)
     publish_time = Column(DateTime, nullable=True)
+    publish_time_end = Column(DateTime, nullable=True)
     created_at = Column(DateTime, default=func.now())
     updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
 

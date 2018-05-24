@@ -19,7 +19,8 @@ class CftcController(Controller):
                     query = session.query(CrawlCftc.id).filter(
                         and_(
                             CrawlCftc.cftc_name == cftc.cftc_name,
-                            CrawlCftc.publish_time == cftc.publish_time
+                            CrawlCftc.publish_time == cftc.publish_time,
+                            CrawlCftc.publish_time_end == cftc.publish_time_end,
                         )
                     ).one_or_none()
 
