@@ -31,7 +31,8 @@ class ArticleController(Controller):
                             session.flush()
                             data['id'] = article.id
                             data['dtype'] = 'insert'
-                            self.hook_data(data)
+                            if "body" in data:
+                                self.hook_data(data)
                         else:
                             query = session.query(CrawlArticle.id).filter(
                                 getattr(CrawlArticle, key) == getattr(article, key)
