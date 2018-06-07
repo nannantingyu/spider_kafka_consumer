@@ -41,24 +41,32 @@ class ArticleController(Controller):
                                 session.query(CrawlArticle).filter(
                                     CrawlArticle.id == query[0]
                                 ).update(data)
-
-                                data['id'] = query[0]
-                                data['dtype'] = 'update'
-                                self.hook_data(data)
                     else:
                         if hasattr(CrawlArticle, key):
-                            query = session.query(CrawlArticle.id).filter(
+                            query = session.query(CrawlArticle).filter(
                                 getattr(CrawlArticle, key) == getattr(article, key)
                             ).one_or_none()
 
                             if query:
                                 session.query(CrawlArticle).filter(
-                                    CrawlArticle.id == query[0]
+                                    CrawlArticle.id == query.id
                                 ).update(data)
 
-                                data['id'] = query[0]
-                                data['dtype'] = 'update'
-                                self.hook_data(data)
+                                if "body" in data:
+                                    data['id'] = query.id
+                                    data['dtype'] = 'insert' if not query.body else "update"
+                                    data['title'] = query.title
+                                    data['description'] = query.description
+                                    data['image'] = query.image
+                                    data['body'] = query.body
+                                    data['type'] = query.type
+                                    data['publish_time'] = query.publish_time
+                                    data['author'] = query.author
+                                    data['keywords'] = query.keywords
+                                    data['source_url'] = query.source_url
+                                    data['source_site'] = query.source_site
+
+                                    self.hook_data(data)
 
             except Exception as e:
                 self.logger.error('Catch an exception.', exc_info=True)
