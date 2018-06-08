@@ -26,7 +26,8 @@ redis_config = {
 data_formatter = {
     'article': {
         'post_url_lists': [
-            'http://ad.yjshare.cn/api/test_article'
+            'http://ad.yjshare.cn/api/test_article',
+            'http://hubei.xukaihang.com/api/crawl/dataimport'
         ],
         'data_format': {
             'id': 'id',
