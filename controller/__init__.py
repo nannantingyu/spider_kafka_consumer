@@ -13,4 +13,5 @@ __all__ = [
     'StockController',
     'FxssiController',
     'NiuyanController',
+    'ViponlineController'
 ]
