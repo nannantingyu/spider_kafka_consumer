@@ -20,6 +20,15 @@ class FiledownController(Controller):
                 file_url = fileinfo[0]
                 file_save_path = fileinfo[1]
 
+                print file_save_path, "____", file_url
                 image_map = CrawlImageMap(img_path=file_save_path, real_path=file_url)
-                with self.session_scope(self.sess) as session:
-                    session.add(image_map)
+                try:
+                    with self.session_scope(self.sess) as session:
+                        query = session.query(CrawlImageMap.id).filter(
+                            CrawlImageMap.img_path == file_save_path
+                        ).one_or_none()
+
+                        if query is None:
+                            session.add(image_map)
+                except Exception,e:
+                    self.logger.error('Catch an exception.', exc_info=True)
