@@ -61,13 +61,12 @@ class ArticleController(Controller):
                                     data['image'] = query.image
                                     data['body'] = query.body
                                     data['type'] = query.type
-                                    data['publish_time'] = query.publish_time
+                                    data['publish_time'] = query.publish_time.strftime("%Y-%m-%d %H:%M:%S")
                                     data['author'] = query.author
                                     data['keywords'] = query.keywords
                                     data['source_url'] = query.source_url
                                     data['source_site'] = query.source_site
 
                                     self.hook_data(data)
-
             except Exception as e:
                 self.logger.error('Catch an exception.', exc_info=True)

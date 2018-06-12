@@ -59,11 +59,13 @@ class Controller(object):
         for url in data_formatter['post_url_lists']:
             t = threading.Thread(target=self.start_post_data, args=(url, post_data))
             t.start()
+            # self.start_post_data(url, post_data)
 
 
     def start_post_data(self, url, post_data):
         try:
-            requests.post(url, data=post_data)
+            r = requests.post(url, data=post_data)
+            self.logger.info('[result] %s ' % r.text)
         except Exception, e:
             self.logger.error("[Post error %s]" % url, exc_info=True)
         finally:
