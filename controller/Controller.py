@@ -8,6 +8,7 @@ from sqlalchemy.orm import sessionmaker
 from model.util import db_connect, create_news_table
 import settings
 import requests
+import threading
 
 @contextmanager
 def session_scope(session):
@@ -44,7 +45,7 @@ class Controller(object):
         self.logger.setLevel(logging.ERROR)
 
         if topic:
-            self.consumer = KafkaConsumer(topic, bootstrap_servers=self.server['host'], group_id='spider_consumer_test', auto_offset_reset="earliest")
+            self.consumer = KafkaConsumer(topic, bootstrap_servers=self.server['host'], group_id='spider_consumer_client', auto_offset_reset="earliest")
 
     def hook_data(self, data, data_formatter=None):
         data_formatter = settings.data_formatter[data_formatter] if data_formatter is not None else settings.data_formatter[self.name]
@@ -54,13 +55,15 @@ class Controller(object):
             if key in data:
                 post_data[key_to] = data[key]
 
-        print post_data
         for url in data_formatter['post_url_lists']:
-            try:
-                print url
-                requests.post(url, data=post_data)
-            except Exception,e:
-                self.logger.error("[Post error %s]" % url, exc_info=True)
-                continue
-            finally:
-                self.logger.info("[Post to %s]" % url)
+            t = threading.Thread(target=self.start_post_data, args=(url, post_data))
+            t.start()
+
+
+    def start_post_data(self, url, post_data):
+        try:
+            requests.post(url, data=post_data)
+        except Exception, e:
+            self.logger.error("[Post error %s]" % url, exc_info=True)
+        finally:
+            self.logger.info("[Post to %s]" % url)
