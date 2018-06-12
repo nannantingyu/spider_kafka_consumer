@@ -45,9 +45,10 @@ class Controller(object):
         self.logger.setLevel(logging.ERROR)
 
         if topic:
-            self.consumer = KafkaConsumer(topic, bootstrap_servers=self.server['host'], group_id='spider_consumer_client', auto_offset_reset="earliest")
+            self.consumer = KafkaConsumer(topic, bootstrap_servers=self.server['host'], group_id='spider_consumer_client')
 
     def hook_data(self, data, data_formatter=None):
+        self.logger.info('[Hook Data]: %s' % data_formatter)
         data_formatter = settings.data_formatter[data_formatter] if data_formatter is not None else settings.data_formatter[self.name]
         post_data = {}
         for key in data_formatter['data_format']:
