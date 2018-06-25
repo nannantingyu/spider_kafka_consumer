@@ -31,7 +31,7 @@ class Jin10jieduController(Controller):
                             CrawlEconomicJiedu.dataname_id == query[0]
                         ).update(data)
 
-                        data['id'] = jiedu.id
+                        data['id'] = query.id
                         data['dtype'] = "update"
                         data['source_site'] = "jin10"
                         self.hook_data(data, "jiedu")

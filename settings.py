@@ -26,7 +26,7 @@ redis_config = {
 data_formatter = {
     'article': {
         'post_url_lists': [
-            'http://hubei.xukaihang.com/api/crawl/dataimport'
+            'http://test.cn/api/article'
         ],
         'data_format': {
             'id': 'id',
@@ -184,5 +184,23 @@ data_formatter = {
             'type': 'type',
             'source_site': 'source_site'
         }
-    }
+    },
+    'jinse_kuaixun': {
+        'post_url_lists': [
+            "http://ad.yjshare.cn/api/test_kuaixun"
+        ],
+        'data_format': {
+            "id": "id",
+            'publish_time': 'publish_time',
+            'grade': 'grade',
+            'image': 'image',
+            'content': 'content',
+            'source_id': 'live_id',
+            'type': 'type',
+            'source_url': 'source_url',
+            'link': 'link',
+            'link_name': 'predicted_value',
+            'dtype': 'data_type',
+        }
+    },
 }
